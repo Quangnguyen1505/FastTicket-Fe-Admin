@@ -1,5 +1,5 @@
 import axiosClientFe from "@/helpers/call-fe";
-import { ContactMessageUploadFormData, GetAllContactMessageResponse, GetDetailsContactMessageResponse } from "@/types/contact-message";
+import { ContactMessageUploadFormData, GetAllContactMessageResponse, GetDetailsContactMessageResponse, ResponseCustomer } from "@/types/contact-message";
 
 export const getAllContactMessage = async ({
     limit = 50, 
@@ -46,9 +46,9 @@ export const createContactMessage = async (newContactMess: ContactMessageUploadF
     }
 }
 
-export const updateContactMessage = async (user_id: string, accessToken: string, contactMessageId: string, editContactMess: ContactMessageUploadFormData) => {
+export const updateContactMessage = async (user_id: string, accessToken: string, contactMessageId: string, status: number) => {
     try {
-        const response = await axiosClientFe.put(`/api/contact-message/${contactMessageId}`, editContactMess, {
+        const response = await axiosClientFe.put(`/api/contact-message/${contactMessageId}`, { status }, {
             headers: {
                 'x-client-id': user_id,
                 'authorization': accessToken
@@ -74,6 +74,22 @@ export const deleteContactMessage = async (user_id: string, accessToken: string,
         return response;  
     } catch (error) {
         console.error('Error deleting Contact Message:', error);
+        throw error;  
+    }
+}
+
+export const responseEmailToCustomer = async (user_id: string, accessToken: string, newResponse: ResponseCustomer) => {
+    try {        
+        const response = await axiosClientFe.post(`/api/contact-message/customer`, newResponse, {
+            headers: {
+                'x-client-id': user_id,
+                'authorization': accessToken
+            }
+        });
+        console.log("response ", response)
+        return response;  
+    } catch (error) {
+        console.error('Error create Contact Message:', error);
         throw error;  
     }
 }

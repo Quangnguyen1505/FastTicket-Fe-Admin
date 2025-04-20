@@ -13,7 +13,8 @@ import {
   UserCircleIcon,
   RoomIcon,
   TicketIcon,
-  MovieIcon
+  MovieIcon,
+  EnvelopeIcon,
 } from "../icons/index";
 
 type NavItem = {
@@ -65,12 +66,12 @@ const navItems: NavItem[] = [
   },
   {
     name: "Events",
-    icon: <UserCircleIcon />,
+    icon: <GridIcon />,
     path: "/events",
   },
   {
     name: "Contact Message",
-    icon: <UserCircleIcon />,
+    icon: <EnvelopeIcon />,
     path: "/contact-message",
   },
 ];

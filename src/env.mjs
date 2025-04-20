@@ -11,7 +11,7 @@ export const env = createEnv({
     },
     runtimeEnv: {
         NEXT_PUBLIC_APP_URL:
-            process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
+            process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3001',
         NEXT_PUBLIC_BACKEND_DOMAIN:
             process.env.NEXT_PUBLIC_BACKEND_DOMAIN || 'http://localhost:8000', 
         NEXT_PUBLIC_BACKEND_DOMAIN_GO:

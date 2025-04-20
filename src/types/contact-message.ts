@@ -27,6 +27,14 @@ export interface ContactMessageUploadFormData {
     message: string;
 }
 
-export interface ContactMessageUploadFormData {
+export interface ContactMessageUpdateData {
     status: number;
+}
+
+export interface ResponseCustomer {
+    name: string;
+    email: string;
+    message: string;
+    response: string;
+    contact_id: string;
 }
