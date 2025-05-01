@@ -4,7 +4,6 @@ import './globals.css';
 import { SidebarProvider } from '@/context/SidebarContext';
 import { ThemeProvider } from '@/context/ThemeContext';
 import { ReduxProvider } from './provider';
-import SessionChecker from '@/components/SessionChecker';
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -21,7 +20,6 @@ export default function RootLayout({
         <ReduxProvider>
           <ThemeProvider>
             <SidebarProvider>
-              <SessionChecker />
               {children}
             </SidebarProvider>
           </ThemeProvider>

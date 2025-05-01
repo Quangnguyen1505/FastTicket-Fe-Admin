@@ -117,7 +117,7 @@ const EventsPage: React.FC = () => {
         }
       >
         <div className="space-y-4">
-          {events.map((event) => (
+          {events && events.map((event) => (
             <div
               key={event.ID}
               className="flex items-center bg-white rounded-lg shadow-md p-4 space-x-4 hover:bg-gray-100 transition-colors cursor-pointer"

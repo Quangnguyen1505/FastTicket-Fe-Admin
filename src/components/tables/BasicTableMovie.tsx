@@ -178,7 +178,7 @@ export default function BasicTableMovie() {
                       Trailer
                     </a>
                   </TableCell>
-                  <TableCell className="px-8 py-3 text-start text-theme-sm">
+                  <TableCell className="px-8 py-3 text-start text-theme-sm whitespace-nowrap">
                     <Badge
                       size="sm"
                       color={getStatusBadgeColor(movie.movie_status)}
