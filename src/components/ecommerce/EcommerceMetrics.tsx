@@ -1,9 +1,22 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Badge from "../ui/badge/Badge";
 import { ArrowDownIcon, ArrowUpIcon, BoxIconLine, GroupIcon } from "@/icons";
+import { getCountUser } from "@/services/user.service";
+import { useAppSelector } from "@/redux/hooks";
 
-export const EcommerceMetrics = () => {
+export const EcommerceMetrics = ({ totalOrders }: { totalOrders: number }) => {
+  const { shopId, accessToken } = useAppSelector((state) => state.auth);
+  const [userCount, setUserCount] = useState(0);
+  useEffect(() => {
+    const fetchUserCount = async () => {
+      if (!shopId || !accessToken) return;
+      const response = await getCountUser(shopId, accessToken);
+      console.log(response.metadata);
+      setUserCount(response.metadata);
+    };
+    fetchUserCount();
+  }, []);
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6">
       {/* <!-- Metric Item Start --> */}
@@ -18,7 +31,7 @@ export const EcommerceMetrics = () => {
               Customers
             </span>
             <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">
-              3,782
+              {userCount}
             </h4>
           </div>
           <Badge color="success">
@@ -37,10 +50,10 @@ export const EcommerceMetrics = () => {
         <div className="flex items-end justify-between mt-5">
           <div>
             <span className="text-sm text-gray-500 dark:text-gray-400">
-              Orders
+              Bookings
             </span>
             <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">
-              5,359
+              {totalOrders || 0}
             </h4>
           </div>
 

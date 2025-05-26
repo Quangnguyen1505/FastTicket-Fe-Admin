@@ -6,8 +6,9 @@ import BasicTableContactMess from "@/components/tables/BasicTableContactMess";
 import { useRouter } from "next/navigation";
 import { updateContactMessage } from "@/services/contact-message.service";
 import { useAppSelector } from "@/redux/hooks";
+import toast from "react-hot-toast";
 export default function BasicTables() {
-  const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [refreshTrigger] = useState(0);
   const { shopId, accessToken } = useAppSelector((state) => state.auth);
   const router = useRouter();
 
@@ -31,7 +32,7 @@ export default function BasicTables() {
         // );
       } catch (error) {
         console.error("Error updating status:", error);
-        alert("Cập nhật trạng thái thất bại.");
+        toast.error("Cập nhật trạng thái thất bại.");
       }
     };
 

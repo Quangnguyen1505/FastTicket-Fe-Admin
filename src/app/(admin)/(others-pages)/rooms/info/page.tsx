@@ -11,6 +11,7 @@ import { createRooms, updateRooms } from "@/services/rooms.service";
 import BasicTableRooms from "@/components/tables/BasicTableRoom";
 import { getAllSeatType } from "@/services/seatType.service";
 import { SeatType } from "@/types/seat-type";
+import toast from "react-hot-toast";
 
 type RoomSeatType = {
   type: string;
@@ -27,7 +28,6 @@ export default function BasicTables() {
   // State cho các input
   const [roomName, setRoomName] = useState("");
   const [roomSeatTypes, setRoomSeatTypes] = useState<RoomSeatType[]>([]);
-  const [roomSeatQuantity, setRoomSeatQuantity] = useState("");
   const [roomReleaseDate, setRoomReleaseDate] = useState("");
   const [seatTypes, setseatTypes] = useState<SeatType[]>([]);
 
@@ -38,7 +38,6 @@ export default function BasicTables() {
     setRoom(null);
     setRoomName("");
     setRoomSeatTypes([]);
-    setRoomSeatQuantity("");
     setRoomReleaseDate("");
   };
 
@@ -72,14 +71,14 @@ export default function BasicTables() {
         if (editMode && room) {
           await updateRooms(shopId, accessToken, room.id, roomData);
         } else {
-          // console.log("room data ", roomData)
+          console.log("room data ", roomData)
           await createRooms(shopId, accessToken, roomData);
         }
     
         setRefreshTrigger((prev) => prev + 1);
         closeModal();
       } catch (error) {
-        alert("Có lỗi xảy ra. Vui lòng thử lại.");
+        toast.error("Có lỗi xảy ra. Vui lòng thử lại.");
         console.error("Error saving room:", error);
       }
     };
@@ -92,10 +91,9 @@ export default function BasicTables() {
       setRoomSeatTypes(
         (room.Room_seat_types || []).map((item) => ({
           type: item.Seat_type.name,
-          quantity: 0,
+          quantity: item.quantity,
         }))
       );
-      setRoomSeatQuantity(room.room_seat_quantity?.toString() || "");
       setRoomReleaseDate(
         room.room_release_date
           ? new Date(room.room_release_date).toISOString().split("T")[0]
@@ -194,8 +192,8 @@ export default function BasicTables() {
             </label>
             <input
               type="number"
-              value={roomSeatQuantity}
-              onChange={(e) => setRoomSeatQuantity(e.target.value)}
+              value={roomSeatTypes.reduce((total, curr) => total + curr.quantity, 0)}
+              readOnly
               placeholder="Ví dụ: 100"
               className="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
             />

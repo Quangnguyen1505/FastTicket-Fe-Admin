@@ -15,6 +15,7 @@ import { User, UserRequestUpdate } from "@/types/users";
 import { getAllUsers, updateUsers } from "@/services/user.service";
 import EditUserModal from "./EditUserModal"; 
 import { convertUserToFormData } from "@/helpers/convertUserToFormData";
+import toast from "react-hot-toast";
 
 export default function BasicTableUsers() {
   const [users, setUsers] = useState<User[]>([]);
@@ -49,7 +50,7 @@ export default function BasicTableUsers() {
       try {
         if (!selectedUser) return;
         if (!shopId || !accessToken) {
-          alert("pls register or signin!");
+          toast.error("pls register or signin!");
           return;
         }
     
@@ -71,7 +72,7 @@ export default function BasicTableUsers() {
         setEditModalOpen(false); 
       } catch (error) {
         console.log("error ", error);
-        alert("Cập nhật người dùng thất bại. Vui lòng thử lại.");
+        toast.error("Cập nhật người dùng thất bại. Vui lòng thử lại.");
       }
     };
 
@@ -170,7 +171,7 @@ export default function BasicTableUsers() {
                         <FaEdit />
                       </button>
                       <button
-                        onClick={() => alert("Tính năng xóa chưa hỗ trợ")}
+                        onClick={() => toast.error("Tính năng xóa chưa hỗ trợ")}
                         className="text-red-500 hover:text-red-700"
                         aria-label="Delete"
                       >

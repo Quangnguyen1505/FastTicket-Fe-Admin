@@ -7,6 +7,7 @@ import Input from "../form/input/InputField";
 import Label from "../form/Label";
 import { User, UserRequestUpdate } from "@/types/users";
 import { getAllRoles } from "@/services/roles.service";
+import toast from "react-hot-toast";
 
 interface Role {
   id: string;
@@ -99,7 +100,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
 
   const handleSave = () => {
     if (!editedUser.usr_first_name || !editedUser.usr_last_name || !editedUser.usr_email) {
-      alert("Vui lòng nhập đầy đủ họ, tên và email.");
+      toast.error("Vui lòng nhập đầy đủ họ, tên và email."); 
       return;
     }
 

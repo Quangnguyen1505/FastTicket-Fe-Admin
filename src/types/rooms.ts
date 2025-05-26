@@ -1,5 +1,6 @@
 export interface SeatTypeRoom {
     seat_type_id: string;
+    quantity: number;
     Seat_type: { name: string }
 }
 

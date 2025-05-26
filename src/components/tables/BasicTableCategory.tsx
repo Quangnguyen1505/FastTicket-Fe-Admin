@@ -12,6 +12,7 @@ import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { deleteCategories, getAllCategory } from "@/services/category.service";
 import { Category } from "@/types/categories";
 import { useAppSelector } from "@/redux/hooks";
+import toast from "react-hot-toast";
 
 export default function BasicTableCategories({
   refreshTrigger,
@@ -35,7 +36,7 @@ export default function BasicTableCategories({
   const handleDelete = async (categoryId: string) => {
     try {
         if (!shopId || !accessToken) {
-            alert("Vui lòng đăng nhập lại!");
+            toast.error("Vui lòng đăng nhập lại!");
             return;
         }
 
@@ -45,13 +46,13 @@ export default function BasicTableCategories({
         const res = await deleteCategories(shopId, accessToken, categoryId);
         console.log("res ", res.data);
         
-        alert("Đã xóa thể loại thành công!");
+        toast.success("Đã xóa thể loại thành công!");
         setCategories((prev) =>
             prev.filter((category) => category.id !== categoryId)
         );
     } catch (error) {
         console.log("error ", error);
-        alert("Xóa thể loại thất bại. Vui lòng thử lại.");
+        toast.error("Xóa thể loại thất bại. Vui lòng thử lại.");
     }
   };
 

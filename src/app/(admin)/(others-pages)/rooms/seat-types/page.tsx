@@ -8,6 +8,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { SeatTypeRequestEdit } from "@/types/seat-type";
 import { createSeatTypes, updateSeatTypes } from "@/services/seatType.service";
 import BasicTableSeatTypes from "@/components/tables/BasicTableSeatType";
+import toast from "react-hot-toast";
 
 export default function BasicTables() {
   const [isOpen, setIsOpen] = useState(false);
@@ -48,7 +49,7 @@ const [seatTypesDescription, setSeatTypesDescription] = useState("");
       setRefreshTrigger((prev) => prev + 1);
       closeModal();
     } catch (error) {
-      alert("Có lỗi xảy ra. Vui lòng thử lại.");
+      toast.error("Có lỗi xảy ra. Vui lòng thử lại.");
       console.error("Error saving category:", error);
     }
   };

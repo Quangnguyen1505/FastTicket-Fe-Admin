@@ -14,6 +14,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { ContactMessage } from "@/types/contact-message";
 import { deleteContactMessage, getAllContactMessage, updateContactMessage } from "@/services/contact-message.service";
 import Badge from "../ui/badge/Badge";
+import toast from "react-hot-toast";
 
 export default function BasicTableContactMess({
   refreshTrigger,
@@ -51,7 +52,7 @@ export default function BasicTableContactMess({
   const handleDelete = async (contactMessId: string) => {
     try {
         if (!shopId || !accessToken) {
-            alert("Vui lòng đăng nhập lại!");
+            toast.error("Vui lòng đăng nhập lại!");
             return;
         }
 
@@ -61,13 +62,13 @@ export default function BasicTableContactMess({
         const res = await deleteContactMessage(shopId, accessToken, contactMessId);
         console.log("res ", res.data);
         
-        alert("Đã xóa thể loại thành công!");
+        toast.success("Đã xóa thể loại thành công!");
         setContactMess((prev) =>
             prev.filter((contactMess) => contactMess.ID !== contactMessId)
         );
     } catch (error) {
         console.log("error ", error);
-        alert("Xóa thể loại thất bại. Vui lòng thử lại.");
+        toast.error("Xóa thể loại thất bại. Vui lòng thử lại.");
     }
   };
 
@@ -87,7 +88,7 @@ export default function BasicTableContactMess({
       );
     } catch (error) {
       console.error("Error updating status:", error);
-      alert("Cập nhật trạng thái thất bại.");
+      toast.error("Cập nhật trạng thái thất bại.");
     }
   };
 

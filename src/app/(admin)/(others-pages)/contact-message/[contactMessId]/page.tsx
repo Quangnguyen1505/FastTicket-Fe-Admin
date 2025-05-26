@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { ContactMessage, ResponseCustomer } from "@/types/contact-message";
 import { getDetailContactMessage, responseEmailToCustomer } from "@/services/contact-message.service";
 import { useAppSelector } from "@/redux/hooks";
+import toast from "react-hot-toast";
 
 export default function ContactMessageDetailPage() {
   const { contactMessId } = useParams();
@@ -30,12 +31,12 @@ export default function ContactMessageDetailPage() {
 
   const handleReply = async () => {
     if (!reply.trim()) {
-      alert("Vui lòng nhập nội dung phản hồi.");
+      toast.error("Vui lòng nhập nội dung phản hồi.");
       return;
     }
 
     if (!shopId || !accessToken || !contact) {
-      alert("Vui lòng đăng nhập lại!");
+      toast.error("Vui lòng đăng nhập lại!");
       return;
     }
 
@@ -50,22 +51,22 @@ export default function ContactMessageDetailPage() {
           contact_id: contact.ID,
         };
 
-        console.log("payload ", payload)
-  
         await responseEmailToCustomer(shopId, accessToken, payload);
   
-        alert("Gửi phản hồi thành công!");
+        toast.success("Gửi phản hồi thành công!");
         setReply("");
-        // Optionally reload contact detail
-        // const res = await getDetailContactMessage(contactMessId as string);
-        // setContact(res.data);
-      } catch (err) {
+        
+        // Cập nhật lại status của contact message
+        const updatedContact = { ...contact, Status: 2 }; // 2 là trạng thái "Đã phản hồi"
+        setContact(updatedContact);
+        
+    } catch (err) {
         console.error("Error replying", err);
-        alert("Gửi phản hồi thất bại.");
-      } finally {
+        toast.error("Gửi phản hồi thất bại.");
+    } finally {
         setLoading(false);
-      }
-    };
+    }
+  };
 
   const handleBack = () => {
     router.back(); 

@@ -42,3 +42,9 @@ export interface UserRequestUpdate {
     role_name: string;
     usr_status: number; 
 }
+
+export interface CountUserResponse {
+    message: string;
+    status: number;
+    metadata: number;
+}

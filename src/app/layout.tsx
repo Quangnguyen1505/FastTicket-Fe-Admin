@@ -4,6 +4,7 @@ import './globals.css';
 import { SidebarProvider } from '@/context/SidebarContext';
 import { ThemeProvider } from '@/context/ThemeContext';
 import { ReduxProvider } from './provider';
+import ToasterClient from '@/components/ToasterClient';
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -20,6 +21,7 @@ export default function RootLayout({
         <ReduxProvider>
           <ThemeProvider>
             <SidebarProvider>
+              <ToasterClient />
               {children}
             </SidebarProvider>
           </ThemeProvider>

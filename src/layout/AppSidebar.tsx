@@ -15,6 +15,9 @@ import {
   TicketIcon,
   MovieIcon,
   EnvelopeIcon,
+  SnackIcon,
+  DiscountIcon,
+  ChatIcon
 } from "../icons/index";
 
 type NavItem = {
@@ -74,6 +77,21 @@ const navItems: NavItem[] = [
     icon: <EnvelopeIcon />,
     path: "/contact-message",
   },
+  {
+    name: "Snack",
+    icon: <SnackIcon />,
+    path: "/snack",
+  },
+  {
+    name: "Discount",
+    icon: <DiscountIcon />,
+    path: "/discount",
+  },
+  {
+    name: "Chat Support",
+    icon: <ChatIcon />,
+    path: "/chat-support",
+  },
 ];
 
 const othersItems: NavItem[] = [
@@ -82,7 +100,6 @@ const othersItems: NavItem[] = [
     name: "Authentication",
     subItems: [
       { name: "Sign In", path: "/signin", pro: false },
-      { name: "Sign Up", path: "/signup", pro: false },
     ],
   },
 ];

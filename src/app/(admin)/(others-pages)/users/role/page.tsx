@@ -8,6 +8,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { Role } from "@/types/roles";
 import { createRoles, updateRoles } from "@/services/roles.service";
 import BasicTableRoles from "@/components/tables/BasicTableRole";
+import toast from "react-hot-toast";
 
 export default function BasicTables() {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,14 +48,16 @@ export default function BasicTables() {
     try {
       if (editMode && roles) {
         await updateRoles(shopId, accessToken, roles.id, roleData);
+        toast.success("Cập nhật vai trò thành công!");
       } else {
         await createRoles(shopId, accessToken, roleData);
+        toast.success("Thêm vai trò thành công!");
       }
       
       setRefreshTrigger((prev) => prev + 1);
       closeModal();
     } catch (error) {
-      alert("Có lỗi xảy ra. Vui lòng thử lại.");
+      toast.error("Có lỗi xảy ra. Vui lòng thử lại.");
       console.error("Error saving role:", error);
     }
   };

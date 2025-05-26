@@ -54,7 +54,8 @@ import BellIcon from "./bell.svg";
 import RoomIcon from "./room.svg"
 import TicketIcon from "./ticket.svg"
 import MovieIcon from "./movie.svg"
-
+import SnackIcon from "./snacks.svg"
+import DiscountIcon from "./discount-ticket.svg"
 export {
   RoomIcon,
   TicketIcon,
@@ -112,4 +113,6 @@ export {
   HorizontaLDots,
   ChevronUpIcon,
   ChatIcon,
+  SnackIcon,
+  DiscountIcon
 };

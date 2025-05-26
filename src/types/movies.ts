@@ -28,6 +28,12 @@ export interface GetAllMoviesResponse {
     metadata: Movie[];
 }
 
+export interface GetMovieResponse {
+  message: string;
+  status: number;
+  metadata: Movie;
+}
+
 export interface MovieUploadFormData {
   file: File | null;
   movie_image_url?: string;

@@ -42,6 +42,7 @@ export async function POST(req: NextRequest) {
           
         return NextResponse.json(response.data, { status: response.status });
     } catch (error: unknown) {
+        console.log("error", error)
         const err = error as { response?: { data?: { message?: string }; status?: number }; message?: string };
         const message = err.response?.data?.message || err.message || "Failed to login";
         const status = err.response?.status || 500;

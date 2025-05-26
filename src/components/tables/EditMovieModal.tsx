@@ -8,6 +8,7 @@ import Label from "../form/Label";
 import { Movie, MovieUploadFormData } from "@/types/movies";
 import { getAllCategory } from "@/services/category.service";
 import { Category } from "@/types/categories";
+import toast from "react-hot-toast";
 
 interface EditMovieModalProps {
   movie: Movie;
@@ -79,7 +80,7 @@ const EditMovieModal: React.FC<EditMovieModalProps> = ({ movie, isOpen, onClose,
 
     const handleSave = () => {
         if (!editedMovie.movie_title || !editedMovie.movie_release_date) {
-          alert("Vui lòng nhập đầy đủ tiêu đề phim và ngày phát hành.");
+          toast.error("Vui lòng nhập đầy đủ tiêu đề phim và ngày phát hành.");
           return;
         }
       
