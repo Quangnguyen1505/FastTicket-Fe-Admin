@@ -7,6 +7,7 @@ import { deleteEvents, getDetailEvent } from '@/services/event.service';
 import { Event, EventsUploadFormDataTime } from '@/types/events';
 import { useAppSelector } from '@/redux/hooks';
 import EditEventModal from '@/components/modal/EditEventModal';
+import Image from 'next/image';
 
 const EventDetailPage: React.FC = () => {
   const router = useRouter();
@@ -159,7 +160,7 @@ const EventDetailPage: React.FC = () => {
                 className="relative max-w-[90vw] max-h-[90vh]"
                 onClick={(e) => e.stopPropagation()}
                 >
-                <img
+                {/* <img
                     src={event.EventImageUrl}
                     alt="Ảnh sự kiện"
                     className="object-contain rounded-lg shadow-xl bg-white"
@@ -167,7 +168,18 @@ const EventDetailPage: React.FC = () => {
                     maxHeight: "80vh",
                     maxWidth: "80vw"
                     }}
-                />
+                /> */}
+                  <Image
+                      src={event.EventImageUrl}
+                      alt="Ảnh sự kiện"
+                      width={800}
+                      height={600}
+                      className="object-contain rounded-lg shadow-xl bg-white"
+                      style={{
+                          maxHeight: "80vh",
+                          maxWidth: "80vw"
+                      }}
+                  />
                 </div>
             </div>
         )}

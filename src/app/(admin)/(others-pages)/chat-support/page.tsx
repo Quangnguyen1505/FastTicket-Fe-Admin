@@ -30,23 +30,7 @@ export default function ChatSupport() {
     };
 
     fetchSessions();
-  }, []);
-
-  // 👉 Dữ liệu tĩnh mẫu
-  // const sessions: Session[] = [
-  //   {
-  //     session_id: "abc123",
-  //     customer_id: "khachhang01",
-  //     created_at: "2025-05-22T10:15:00Z",
-  //     last_message: "Xin chào, tôi cần hỗ trợ!",
-  //   },
-  //   {
-  //     session_id: "def456",
-  //     customer_id: "khachhang02",
-  //     created_at: "2025-05-22T11:00:00Z",
-  //     last_message: "Tôi không thanh toán được",
-  //   },
-  // ];
+  }, [shopId, accessToken]);
 
   return (
     <div className="flex flex-col space-y-6 px-6 py-4">

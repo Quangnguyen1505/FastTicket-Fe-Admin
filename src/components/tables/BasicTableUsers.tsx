@@ -12,16 +12,41 @@ import Image from "next/image";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { useAppSelector } from "@/redux/hooks";
 import { User, UserRequestUpdate } from "@/types/users";
-import { getAllUsers, updateUsers } from "@/services/user.service";
+import { getAllUsers, searchUsers, updateUsers } from "@/services/user.service";
 import EditUserModal from "./EditUserModal"; 
 import { convertUserToFormData } from "@/helpers/convertUserToFormData";
 import toast from "react-hot-toast";
+import Pagination from "./Pagination";
+import { useSearch } from "@/contexts/SearchContext";
 
 export default function BasicTableUsers() {
   const [users, setUsers] = useState<User[]>([]);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const { shopId, accessToken } = useAppSelector((state) => state.auth);
+  const { context, searchTerm } = useSearch();
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
+
+  useEffect( () => {
+      if(!shopId || !accessToken) {
+        toast.error("Vui lòng đăng nhập hoặc đăng ký để tiếp tục!");
+        return;
+      }
+      if (context === "users" && searchTerm) {
+        console.log("Filtering users with search term:", searchTerm);
+        const fetchUsers = async () => {
+          const res = await searchUsers(shopId, accessToken, searchTerm);
+          console.log("Filtered users:", res);
+          setFilteredUsers(res.metadata.users || []);
+        }
+
+        fetchUsers();
+      } else {
+        setFilteredUsers(users);
+      }
+    }, [context, searchTerm, users]);
 
   const fetchUsers = useCallback(async () => {
     try {
@@ -29,17 +54,20 @@ export default function BasicTableUsers() {
         user_id: shopId,
         accessToken,
         limit: 50,
-        page: 1,
+        page: currentPage,
       });
-      setUsers(res.metadata || []);
+      console.log("Fetched users:", res);
+      setUsers(res.metadata.users || []);
+      setFilteredUsers(res.metadata.users || []);
+      setTotalPages(Math.ceil(res.metadata.totalCount / 10));
     } catch (error) {
       console.error("Error fetching users:", error);
     }
-  }, [shopId, accessToken]);
+  }, [shopId, accessToken, currentPage]);
 
   useEffect(() => {
     fetchUsers();
-  }, [fetchUsers]);
+  }, [fetchUsers, currentPage]);
 
   const handleEdit = (user: User) => {
     setSelectedUser(user);
@@ -69,6 +97,9 @@ export default function BasicTableUsers() {
         setUsers((prev) =>
           prev.map((m) => (m.id === updatedUser.id ? updatedUser : m))
         );
+        setFilteredUsers((prev) =>
+          prev.map((m) => (m.id === updatedUser.id ? updatedUser : m))
+        );
         setEditModalOpen(false); 
       } catch (error) {
         console.log("error ", error);
@@ -80,6 +111,10 @@ export default function BasicTableUsers() {
     return status ? "success" : "error";
   };  
   
+  const handlePageChange = (page: number) => {
+    if (page < 1 || page > totalPages) return;
+    setCurrentPage(page);
+  };
 
   return (
     <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
@@ -113,7 +148,7 @@ export default function BasicTableUsers() {
             </TableHeader>
 
             <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
-              {users.map((user) => (
+              {filteredUsers.map((user) => (
                 <TableRow key={user.id}>
                   <TableCell className="px-5 py-4 sm:px-6 text-start">
                     <div className="w-14 h-14 overflow-hidden rounded-full border border-gray-200">
@@ -197,6 +232,15 @@ export default function BasicTableUsers() {
           accessToken={accessToken || ""}
         />
       )}
+
+      <div className="mt-4 flex justify-center">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+      </div>
+      <div className="mb-4"></div>
     </div>
   );
 }

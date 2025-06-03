@@ -28,6 +28,7 @@ export default function BasicTableDiscount({
 
   const fetchDiscounts = useCallback(async () => {
     try {
+      console.log('refreshTrigger changed:', refreshTrigger);
       if (!shopId || !accessToken) return;
       const res = await getAllDiscount(shopId, accessToken);
       setDiscounts(res.metadata.discounts || []);

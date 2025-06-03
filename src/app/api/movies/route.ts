@@ -7,12 +7,14 @@ export async function GET(req: NextRequest) {
         const limit = searchParams.get('limit') || '100';
         const page = searchParams.get('page') || '1';
         const movie_status = searchParams.get('movie_status') || 'now-showing';
+        const search = searchParams.get('search') || '';
 
         const response = await axiosClient.get(`/v1/api/movies`, {
             params: {
                 limit,
                 page,
-                movie_status
+                movie_status,
+                search
             }
         });
 

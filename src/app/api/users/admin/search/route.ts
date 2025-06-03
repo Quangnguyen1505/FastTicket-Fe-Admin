@@ -1,20 +1,23 @@
 import {axiosClient} from '@/helpers/call-apis';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(
-    req: NextRequest, 
-    {params}: { params: Promise<{ id: string }> }
-) {
+export async function GET(req: NextRequest) {
     try {
-        const id = (await params).id;
-        const { searchParams } = new URL(req.url);
-        const show_date = searchParams.get('show_date');
-        const response = await axiosClient.get(`/v1/api/showtimes/movies/${id}`, {
+        const searchParams = req.nextUrl.searchParams;
+
+        const shopId = req.headers.get('x-client-id');
+        const accessToken = req.headers.get('authorization');
+
+        const response = await axiosClient.get(`/v1/api/users/search`, {
             params: {
-                show_date: show_date?.trim()
+                search: searchParams.get('search') || ''
+            },
+            headers: {
+                'x-client-id': shopId,
+                'authorization': `Bearer ${accessToken}`
             }
         });
-        console.log("response", response)
+
         return NextResponse.json(response.data);
     } catch (error: unknown) {
         const err = error as { response?: { data?: { message?: string }; status?: number }; message?: string };

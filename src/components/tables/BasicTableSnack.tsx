@@ -28,6 +28,7 @@ export default function BasicTableSnack({
 
   const fetchSnacks = useCallback(async () => {
     try {
+      console.log('refreshTrigger changed:', refreshTrigger);
       if(!shopId || !accessToken) return;
       const res = await getAllSnack(shopId, accessToken);
       setSnacks(res.metadata.snacks || []);

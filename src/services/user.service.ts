@@ -89,3 +89,21 @@ export const getCountUser = async (user_id: string, accessToken: string) => {
         throw error;
     }
 }
+
+export const searchUsers = async (user_id: string, accessToken: string, search: string) => {
+    try {
+        const response = await axiosClientFe.get<GetAllUserResponse>(`/api/users/admin/search`, {
+            params: {
+                search,
+            },
+            headers: {
+                'x-client-id': user_id,
+                'authorization': accessToken
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error searching users:", error);
+        throw error;
+    }
+}

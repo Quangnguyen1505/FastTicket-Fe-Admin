@@ -89,7 +89,7 @@ const AddShowTimeModal: React.FC<AddEventModalProps> = ({ isOpen, onClose, onAdd
       }
     }
     fetchAllShowTimeByShowDate();
-  }, [showDate]);
+  }, [accessToken, shopId, showDate]);
 
   const roomsHasSelectedMovie = useMemo(() => {
     return showtimes

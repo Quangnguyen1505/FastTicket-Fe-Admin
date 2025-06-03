@@ -16,7 +16,7 @@ export const EcommerceMetrics = ({ totalOrders }: { totalOrders: number }) => {
       setUserCount(response.metadata);
     };
     fetchUserCount();
-  }, []);
+  }, [accessToken, shopId]);
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6">
       {/* <!-- Metric Item Start --> */}

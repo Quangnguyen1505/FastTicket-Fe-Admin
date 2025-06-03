@@ -6,6 +6,7 @@ export const getAllMovies = async ({
     limit = 50,
     page = 1,
     movie_status = "",
+    search = "",
 }): Promise<GetAllMoviesResponse> => {
     try {
       const response = await axiosClientFe.get<GetAllMoviesResponse>(`/api/movies`, {
@@ -13,6 +14,7 @@ export const getAllMovies = async ({
           limit,
           page,
           movie_status,
+          search,
         },
       });
       return response.data;

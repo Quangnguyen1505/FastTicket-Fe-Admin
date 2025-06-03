@@ -1,9 +1,12 @@
-import {axiosApisGo} from '@/helpers/call-apis';
+ import {axiosApisGo} from '@/helpers/call-apis';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(req: NextRequest, context: { params: { sessionId: string } }) {
+export async function GET(
+    req: NextRequest,
+    {params}: { params: Promise<{ sessionId: string }> }
+) {
     try {
-        const { sessionId } = context.params;
+        const sessionId = (await params).sessionId;
         const shopId = req.headers.get('x-client-id');
         const accessToken = req.headers.get('authorization');
         

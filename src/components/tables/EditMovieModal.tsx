@@ -9,6 +9,7 @@ import { Movie, MovieUploadFormData } from "@/types/movies";
 import { getAllCategory } from "@/services/category.service";
 import { Category } from "@/types/categories";
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 interface EditMovieModalProps {
   movie: Movie;
@@ -159,11 +160,18 @@ const EditMovieModal: React.FC<EditMovieModalProps> = ({ movie, isOpen, onClose,
                 <div className="col-span-2">
                     <Label>Ảnh poster</Label>
                     {(previewUrl || movie.movie_image_url) && (
-                    <img
+                    // <img
+                    //     src={previewUrl || movie.movie_image_url}
+                    //     alt="Poster"
+                    //     className="h-40 rounded-md object-cover mb-2"
+                    // />
+                      <Image
                         src={previewUrl || movie.movie_image_url}
                         alt="Poster"
+                        width={160}
+                        height={160}
                         className="h-40 rounded-md object-cover mb-2"
-                    />
+                      />
                     )}
                     <Label>Chọn ảnh poster mới</Label>
                     <input

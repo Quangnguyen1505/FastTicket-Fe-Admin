@@ -42,7 +42,11 @@ const UserMetaCard: React.FC<UserMetaCardProps> = ({ user }) => {
                 </p>
                 <div className="hidden h-3.5 w-px bg-gray-300 dark:bg-gray-700 xl:block"></div>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  {user.usr_date_of_birth || "ngày sinh chưa cập nhập .."}
+                  {user.usr_date_of_birth
+                    ? (user.usr_date_of_birth instanceof Date
+                        ? user.usr_date_of_birth.toLocaleDateString()
+                        : user.usr_date_of_birth)
+                    : "ngày sinh chưa cập nhập .."}
                 </p>
               </div>
             </div>

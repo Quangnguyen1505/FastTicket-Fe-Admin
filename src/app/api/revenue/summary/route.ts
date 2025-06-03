@@ -4,6 +4,7 @@ import { axiosClient } from '@/helpers/call-apis';
 export async function GET(req: NextRequest) {
   try {
     const searchParams = req.nextUrl.searchParams;
+    console.log("params:", searchParams.get('groupBy'))
     const shopId = req.headers.get('x-client-id');
     const accessToken = req.headers.get('authorization');
     const response = await axiosClient.get('/v1/api/revenue/summary', {

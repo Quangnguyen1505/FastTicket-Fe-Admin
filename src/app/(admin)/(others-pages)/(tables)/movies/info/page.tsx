@@ -10,32 +10,58 @@ import { createMovies, getAllMovies } from "@/services/movies.service";
 import { useAppSelector } from "@/redux/hooks";
 import { convertMovieToFormData } from "@/helpers/convertMovieToFormData";
 import toast from "react-hot-toast";
+import Pagination from "@/components/tables/Pagination";
+import { useSearch } from "@/contexts/SearchContext";
 
 export default function BasicTables() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [movies, setMovies] = useState<Movie[]>([]);
   const { shopId, accessToken } = useAppSelector((state) => state.auth);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const { context, searchTerm } = useSearch();
+  const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
+
+  useEffect( () => {
+    // Chỉ lọc nếu đang trong context "movies"
+    if (context === "movies" && searchTerm) {
+      console.log("Filtering movies with search term:", searchTerm);
+      const fetchMovies = async () => {
+        const res = await getAllMovies({search: searchTerm});
+        setFilteredMovies(res.metadata.movies || []);
+      }
+
+      fetchMovies();
+    } else {
+      setFilteredMovies(movies);
+    }
+  }, [context, searchTerm, movies]);
+
 
   const closeModal = () => {
     setIsModalOpen(false);
   };
 
-  const fetchMovies = useCallback(async () => {
+  const fetchMovies = useCallback(async (page: number) => {
     try {
       const res = await getAllMovies({
-        limit: 50,
-        page: 1,
+        limit: 8,
+        page,
         movie_status: "now-showing",
       });
-      setMovies(res.metadata || []);
+      console.log("Fetched movies:", res);
+      setMovies(res.metadata.movies || []);
+      setTotalPages(Math.ceil(res.metadata.totalCount / 8));
     } catch (error) {
       console.error("Lỗi khi lấy danh sách phim:", error);
     }
   }, []);
 
+
   useEffect(() => {
-    fetchMovies();
-  }, [fetchMovies]);
+    fetchMovies(currentPage);
+  }, [fetchMovies, currentPage]);
 
   const handleAddMovie = async (movie: MovieUploadFormData) => {
     try {
@@ -60,6 +86,11 @@ export default function BasicTables() {
     }
   }; 
 
+  const handlePageChange = (page: number) => {
+    if (page < 1 || page > totalPages) return;
+    setCurrentPage(page);
+  };
+
   return (
     <div>
       <PageBreadcrumb pageTitle="Phim" />
@@ -74,7 +105,34 @@ export default function BasicTables() {
             </div>
           }
         >
-          <BasicTableMovie movies={movies} setMovies={setMovies}/>
+          <BasicTableMovie movies={filteredMovies} setMovies={setMovies}/>
+          {/* Hiển thị thông báo khi có tìm kiếm */}
+          {context === "movies" && searchTerm && (
+            <div className="mt-4 text-center">
+              <p className="text-gray-600 dark:text-gray-300">
+                Đang tìm kiếm: {searchTerm} - Tìm thấy {filteredMovies.length} kết quả
+              </p>
+              <button 
+                className="mt-2 text-sm text-blue-500 hover:underline"
+                onClick={() => {
+                  // Reset tìm kiếm
+                  const searchInput = document.querySelector('input[type="text"]') as HTMLInputElement;
+                  if (searchInput) searchInput.value = "";
+                  // Gọi hàm reset context
+                  // (Bạn có thể thêm hàm reset trong context nếu cần)
+                }}
+              >
+                Xóa bộ lọc
+              </button>
+            </div>
+          )}
+          <div className="mt-4 flex justify-center">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          </div>
         </ComponentCard>
       </div>
 

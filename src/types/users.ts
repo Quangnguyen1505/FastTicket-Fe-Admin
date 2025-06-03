@@ -20,7 +20,12 @@ export interface User {
 export interface GetAllUserResponse {
     message: string;
     status: number;
-    metadata: User[];
+    metadata: GetAllMetadataMoviesAndCountResponse;
+}
+
+export interface GetAllMetadataMoviesAndCountResponse {
+    users: User[];
+    totalCount: number;
 }
 
 export interface UserRequestCreate {
