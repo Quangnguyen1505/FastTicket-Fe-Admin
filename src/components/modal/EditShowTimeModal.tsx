@@ -6,6 +6,7 @@ import { ShowTimes } from "@/types/showtimes";
 import { EventInput } from "@fullcalendar/core/index.js";
 import { deleteShowTimes, getShowTimeByMovieId } from "@/services/showtimes";
 import { useAppSelector } from "@/redux/hooks";
+import toast from "react-hot-toast";
 
 interface CalendarEvent extends EventInput {
   movieId: string;
@@ -57,11 +58,11 @@ const EditShowTimeModal: React.FC<EditEventModalProps> = ({ isOpen, onClose, eve
     const fetchShowTimeByMovieId = async () => {
       console.log("showtime?.movie_id ",showtime?.movie_id );
       
-      const res = await getShowTimeByMovieId(showtime?.movie_id || "");
+      const res = await getShowTimeByMovieId(showtime?.movie_id || "", showtime?.show_date || "");
       setShowTimes(res.metadata || []);
     };
     fetchShowTimeByMovieId();
-  }, [showtime?.movie_id ]);
+  }, [showtime?.movie_id, showtime?.show_date]);
 
   const handleSubmit = () => {
     if (event) {
@@ -80,11 +81,11 @@ const EditShowTimeModal: React.FC<EditEventModalProps> = ({ isOpen, onClose, eve
         return;
       }
       await deleteShowTimes(shopId, accessToken, showtimeId);
-      alert("Xoá lịch chiếu thành công");
+      toast.success("Xoá lịch chiếu thành công");
       setShowTimes((prev) => prev.filter((s) => s.id !== showtimeId));
     } catch (error) {
       console.error("Lỗi khi xoá lịch chiếu:", error);
-      alert("Không thể xoá lịch chiếu. Vui lòng thử lại.");
+      toast.error("Không thể xoá lịch chiếu. Vui lòng thử lại.");
     }
   };
   
@@ -189,7 +190,7 @@ const EditShowTimeModal: React.FC<EditEventModalProps> = ({ isOpen, onClose, eve
           </label>
           <div className="space-y-4 max-h-[250px] overflow-y-auto pr-2">
             {showTimes.length === 0 ? (
-              <p className="text-sm text-gray-500 dark:text-gray-400">Không có lịch chiếu nào.</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Vui lòng đợi trong giây lát...</p>
             ) : (
               showTimes.map((item) => (
                 <div

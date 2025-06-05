@@ -6,7 +6,7 @@ export async function GET(req: NextRequest) {
         const searchParams = req.nextUrl.searchParams;
         const limit = searchParams.get('limit') || '50';
         const page = searchParams.get('page') || '1';
-        const status = searchParams.get('status') || 0;
+        const status = searchParams.get('status') || '';
 
         const shopId = req.headers.get('x-client-id');
         const accessToken = req.headers.get('authorization');

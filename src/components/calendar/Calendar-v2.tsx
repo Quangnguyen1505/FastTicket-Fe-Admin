@@ -10,6 +10,8 @@ import { ShowTimeRequestData, ShowTimes } from "@/types/showtimes";
 import { useAppSelector } from "@/redux/hooks";
 import AddShowTimeModal from "../modal/AddShowTimeModal";
 import EditShowTimeModal from "../modal/EditShowTimeModal";
+import { exportShowtimesToExcel } from "@/helpers/exportCSV";
+import Button from "../ui/button/Button";
 
 interface CalendarEvent extends EventInput {
   movieId: string;
@@ -127,6 +129,15 @@ const CalendarV2: React.FC = () => {
 
   return (
     <div className="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
+      <div className="flex justify-end p-4">
+        <Button
+          size="sm"
+          variant="green"
+          onClick={() => exportShowtimesToExcel(screenings)}
+        >
+          Xuất Excel
+        </Button>
+    </div>
       <div className="custom-calendar">
         <FullCalendar
           ref={calendarRef}

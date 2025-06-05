@@ -5,6 +5,7 @@ import { Modal } from '@/components/ui/modal';
 import { Event, EventsUploadFormData, EventsUploadFormDataTime } from '@/types/events';
 import { updateEvents } from '@/services/event.service';
 import { convertEventFormData } from '@/helpers/convertEventFormData';
+import toast from 'react-hot-toast';
 
 interface EditEventModalProps {
   isOpen: boolean;
@@ -98,7 +99,7 @@ const EditEventModal: React.FC<EditEventModalProps> = ({
       onClose();
     } catch (error) {
       console.error('Cập nhật sự kiện thất bại:', error);
-      alert('Cập nhật thất bại. Vui lòng thử lại!');
+      toast.error('Cập nhật thất bại. Vui lòng thử lại!');
     }
   };
 

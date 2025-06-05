@@ -12,6 +12,7 @@ import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { useAppSelector } from "@/redux/hooks";
 import { SeatType } from "@/types/seat-type";
 import { deleteSeatTypes, getAllSeatType } from "@/services/seatType.service";
+import toast from "react-hot-toast";
 
 export default function BasicTableSeatTypes({
   refreshTrigger,
@@ -35,7 +36,7 @@ export default function BasicTableSeatTypes({
   const handleDelete = async (seatTypeId: string) => {
     try {
         if (!shopId || !accessToken) {
-            alert("Vui lòng đăng nhập lại!");
+            toast.error("Vui lòng đăng nhập lại!");
             return;
         }
 
@@ -45,13 +46,13 @@ export default function BasicTableSeatTypes({
         const res = await deleteSeatTypes(shopId, accessToken, seatTypeId);
         console.log("res ", res.data);
         
-        alert("Đã xóa thể loại thành công!");
+        toast.success("Đã xóa thể loại thành công!");
         setSeatType((prev) =>
             prev.filter((seatType) => seatType.id !== seatTypeId)
         );
     } catch (error) {
         console.log("error ", error);
-        alert("Xóa thể loại thất bại. Vui lòng thử lại.");
+        toast.error("Xóa thể loại thất bại. Vui lòng thử lại.");
     }
   };
 

@@ -25,7 +25,18 @@ export interface Movie {
 export interface GetAllMoviesResponse {
     message: string;
     status: number;
-    metadata: Movie[];
+    metadata: GetAllMetadataMoviesAndCountResponse;
+}
+
+export interface GetAllMetadataMoviesAndCountResponse {
+    movies: Movie[];
+    totalCount: number;
+}
+
+export interface GetMovieResponse {
+  message: string;
+  status: number;
+  metadata: Movie;
 }
 
 export interface MovieUploadFormData {

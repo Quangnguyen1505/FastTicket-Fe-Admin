@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Modal } from "../ui/modal";
 import Button from "../ui/button/Button";
 import Input from "../form/input/InputField";
 import Label from "../form/Label";
 import { User, UserRequestUpdate } from "@/types/users";
 import { getAllRoles } from "@/services/roles.service";
+import toast from "react-hot-toast";
+import Image from "next/image";
 
 interface Role {
   id: string;
@@ -49,6 +51,15 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
   const [roles, setRoles] = useState<Role[]>([]);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
+  const fetchRoles = useCallback(async () => {
+    try {
+      const res = await getAllRoles(shopId, accessToken);
+      setRoles(res.metadata || []);
+    } catch (error) {
+      console.error("Lỗi khi lấy danh sách vai trò:", error);
+    }
+  }, [shopId, accessToken]);
+
   useEffect(() => {
     if (user) {
       setEditedUser({
@@ -70,16 +81,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
     if (isOpen) {
       fetchRoles();
     }
-  }, [user, isOpen]);
-
-  const fetchRoles = async () => {
-    try {
-      const res = await getAllRoles(shopId, accessToken);
-      setRoles(res.metadata || []);
-    } catch (error) {
-      console.error("Lỗi khi lấy danh sách vai trò:", error);
-    }
-  };
+  }, [user, isOpen, fetchRoles]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -99,7 +101,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
 
   const handleSave = () => {
     if (!editedUser.usr_first_name || !editedUser.usr_last_name || !editedUser.usr_email) {
-      alert("Vui lòng nhập đầy đủ họ, tên và email.");
+      toast.error("Vui lòng nhập đầy đủ họ, tên và email."); 
       return;
     }
 
@@ -182,11 +184,18 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
                 <div>
                     <Label>Ảnh đại diện</Label>
                     {(previewUrl || user.usr_avatar_url) && (
-                    <img
+                      // <img
+                      //     src={previewUrl || user.usr_avatar_url || "/images/user/profile.png"}
+                      //     alt="Poster"
+                      //     className="h-40 rounded-md object-cover mb-2"
+                      // />
+                      <Image
                         src={previewUrl || user.usr_avatar_url || "/images/user/profile.png"}
                         alt="Poster"
+                        width={160}
+                        height={160}
                         className="h-40 rounded-md object-cover mb-2"
-                    />
+                      />
                     )}
                     <input
                     type="file"

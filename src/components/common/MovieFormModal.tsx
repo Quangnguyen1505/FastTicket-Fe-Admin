@@ -77,7 +77,21 @@ const MovieFormModal: React.FC<MovieFormModalProps> = ({
     onSubmit(movie);
     onClose();
     setStep(1);
-    setMovie({ ...movie, movie_title: "", movie_content: "", file: null }); // Reset nếu cần
+    setMovie({
+      file: null,
+      movie_video_trailer_code: "",
+      movie_title: "",
+      movie_content: "",
+      movie_time: 0,
+      movie_director: "",
+      movie_performer: "",
+      movie_status: "",
+      movie_category_name: [],
+      movie_country: "",
+      movie_price: 0,
+      movie_release_date: "",
+      movie_age_rating: "",
+    });
   };
 
   return (

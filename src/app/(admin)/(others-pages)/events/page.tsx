@@ -10,6 +10,7 @@ import PageBreadcrumb from '@/components/common/PageBreadCrumb';
 import { useAppSelector } from '@/redux/hooks';
 import { Modal } from '@/components/ui/modal';
 import { convertEventFormData } from '@/helpers/convertEventFormData';
+import Image from 'next/image';
 
 const EventsPage: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
@@ -117,21 +118,28 @@ const EventsPage: React.FC = () => {
         }
       >
         <div className="space-y-4">
-          {events.map((event) => (
+          {events && events.map((event) => (
             <div
               key={event.ID}
-              className="flex items-center bg-white rounded-lg shadow-md p-4 space-x-4 hover:bg-gray-100 transition-colors cursor-pointer"
+              className="flex items-center bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 space-x-4 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer"
               onClick={() => handleEventClick(event.ID)}
             >
-              <img
+              {/* <img
                 src={event.EventImageUrl}
                 alt={event.EventName}
                 className="w-16 h-16 object-cover rounded-md"
+              /> */}
+              <Image
+                src={event.EventImageUrl}
+                alt={event.EventName}
+                width={64}
+                height={64}
+                className="w-16 h-16 object-cover rounded-md"
               />
               <div className="flex-1">
-                <h2 className="text-lg font-semibold">{event.EventName}</h2>
-                <p className="text-sm text-gray-600 line-clamp-2">{event.EventDescription}</p>
-                <div className="text-xs text-gray-500">
+                <h2 className="text-lg font-semibold dark:text-white">{event.EventName}</h2>
+                <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2">{event.EventDescription}</p>
+                <div className="text-xs text-gray-500 dark:text-gray-400">
                   {new Date(event.EventStart).toLocaleString()} -{' '}
                   {new Date(event.EventEnd).toLocaleString()}
                 </div>

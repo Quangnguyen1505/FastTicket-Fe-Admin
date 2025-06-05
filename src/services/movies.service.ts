@@ -1,11 +1,12 @@
 import axiosClientFe from "@/helpers/call-fe";
-import { GetAllMoviesResponse } from "@/types/movies";
+import { GetAllMoviesResponse, GetMovieResponse } from "@/types/movies";
 
 
 export const getAllMovies = async ({
     limit = 50,
     page = 1,
     movie_status = "",
+    search = "",
 }): Promise<GetAllMoviesResponse> => {
     try {
       const response = await axiosClientFe.get<GetAllMoviesResponse>(`/api/movies`, {
@@ -13,6 +14,7 @@ export const getAllMovies = async ({
           limit,
           page,
           movie_status,
+          search,
         },
       });
       return response.data;
@@ -24,7 +26,7 @@ export const getAllMovies = async ({
 
 export const createMovies = async (user_id: string, accessToken: string, newMovies: FormData) => {
   try {
-      const response = await axiosClientFe.post(`/api/movies`, newMovies, {
+      const response = await axiosClientFe.post<GetMovieResponse>(`/api/movies`, newMovies, {
           headers: {
               'x-client-id': user_id,
               'authorization': accessToken,
@@ -32,7 +34,7 @@ export const createMovies = async (user_id: string, accessToken: string, newMovi
           }
       });
       console.log("response ", response);
-      return response;  
+      return response.data;  
   } catch (error) {
       console.error('Error fetching all users:', error);
       throw error;  

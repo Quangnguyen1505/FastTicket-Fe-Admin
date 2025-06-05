@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useState } from "react";
 import {
   Table,
   TableBody,
@@ -10,34 +10,22 @@ import {
 import Badge from "../ui/badge/Badge";
 import Image from "next/image";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
-import { deleteMovies, getAllMovies, updateMovies } from "@/services/movies.service";
+import { deleteMovies, updateMovies } from "@/services/movies.service";
 import { Movie, MovieUploadFormData } from "@/types/movies"; // Đảm bảo import MovieUploadFormData
 import EditMovieModal from "./EditMovieModal";
 import { convertMovieToFormData } from "@/helpers/convertMovieToFormData";
 import { useAppSelector } from "@/redux/hooks";
+import toast from "react-hot-toast";
 
-export default function BasicTableMovie() {
-  const [movies, setMovies] = useState<Movie[]>([]);
+interface BasicTableMovieProps {
+  movies: Movie[];
+  setMovies: React.Dispatch<React.SetStateAction<Movie[]>>;
+}
+
+export default function BasicTableMovie({ movies, setMovies }: BasicTableMovieProps) {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const { shopId, accessToken } = useAppSelector((state) => state.auth);
-
-  const fetchMovies = useCallback(async () => {
-    try {
-      const res = await getAllMovies({
-        limit: 50,
-        page: 1,
-        movie_status: "now-showing",
-      });
-      setMovies(res.metadata || []);
-    } catch (error) {
-      console.error("Error fetching movies:", error);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchMovies();
-  }, [fetchMovies]);
 
   const handleEdit = (movie: Movie) => {
     setSelectedMovie(movie);
@@ -48,7 +36,7 @@ export default function BasicTableMovie() {
     try {
       if (!selectedMovie) return;
       if (!shopId || !accessToken) {
-        alert("pls register or signin!");
+        toast.error("pls register or signin!");
         return;
       }
   
@@ -68,14 +56,14 @@ export default function BasicTableMovie() {
       setEditModalOpen(false); 
     } catch (error) {
       console.log("error ", error);
-      alert("update movice failed. Vui lòng thử lại.");
+      toast.error("update movice failed. Vui lòng thử lại.");
     }
   };
 
   const handleDelete = async (movieId: string) => {
     try {
         if (!shopId || !accessToken) {
-            alert("Vui lòng đăng nhập lại!");
+            toast.error("Vui lòng đăng nhập lại!");
             return;
         }
 
@@ -85,13 +73,13 @@ export default function BasicTableMovie() {
         const res = await deleteMovies(shopId, accessToken, movieId);
         console.log("res ", res.data);
         
-        alert("Đã xóa thể loại thành công!");
+        toast.success("Đã xóa thể loại thành công!");
         setMovies((prev) =>
             prev.filter((movie) => movie.id !== movieId)
         );
     } catch (error) {
         console.log("error ", error);
-        alert("Xóa thể loại thất bại. Vui lòng thử lại.");
+        toast.error("Xóa thể loại thất bại. Vui lòng thử lại.");
     }
   };
 
@@ -178,7 +166,7 @@ export default function BasicTableMovie() {
                       Trailer
                     </a>
                   </TableCell>
-                  <TableCell className="px-8 py-3 text-start text-theme-sm">
+                  <TableCell className="px-8 py-3 text-start text-theme-sm whitespace-nowrap">
                     <Badge
                       size="sm"
                       color={getStatusBadgeColor(movie.movie_status)}

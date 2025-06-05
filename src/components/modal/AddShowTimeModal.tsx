@@ -49,7 +49,7 @@ const AddShowTimeModal: React.FC<AddEventModalProps> = ({ isOpen, onClose, onAdd
     const fetchAllMovies = async () => {
       try {
         const resMovies = await getAllMovies({ limit: 50 });
-        setMovies(resMovies.metadata);
+        setMovies(resMovies.metadata.movies || []);
       } catch (error) {
         console.error("Error fetching showtimes", error);
       } 
@@ -89,7 +89,7 @@ const AddShowTimeModal: React.FC<AddEventModalProps> = ({ isOpen, onClose, onAdd
       }
     }
     fetchAllShowTimeByShowDate();
-  }, [showDate]);
+  }, [accessToken, shopId, showDate]);
 
   const roomsHasSelectedMovie = useMemo(() => {
     return showtimes

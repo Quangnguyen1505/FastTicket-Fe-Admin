@@ -1,9 +1,13 @@
 import axiosClientFe from "@/helpers/call-fe";
 import { GetAllShowTimesResponse, GetDetailesShowTimesResponse, ShowTimeRequestData } from "@/types/showtimes";
 
-export const getShowTimeByMovieId = async (movieId: string): Promise<GetAllShowTimesResponse> => {
+export const getShowTimeByMovieId = async (movieId: string, show_date: string): Promise<GetAllShowTimesResponse> => {
     try {
-      const response = await axiosClientFe.get<GetAllShowTimesResponse>(`/api/showtimes/movies/${movieId}`);
+      const response = await axiosClientFe.get<GetAllShowTimesResponse>(`/api/showtimes/movies/${movieId}`, {
+        params: {
+          show_date: show_date.trim()
+        }
+      });
       return response.data;
     } catch (error) {
       console.error("Error fetching all showtime by movieId:", error);
@@ -13,7 +17,6 @@ export const getShowTimeByMovieId = async (movieId: string): Promise<GetAllShowT
 
 export const getAllShowTimes = async ({ user_id = "", accessToken = "", limit = 200, show_date = "" }): Promise<GetAllShowTimesResponse> => {
     try {
-      console.log("show_ate client", show_date)
       const response = await axiosClientFe.get<GetAllShowTimesResponse>(`/api/showtimes`, {
         params: {
           limit,

@@ -8,6 +8,7 @@ import { Modal } from "@/components/ui/modal";
 import { createCategories, updateCategories } from "@/services/category.service";
 import { useAppSelector } from "@/redux/hooks";
 import { CategoryRequestEdit } from "@/types/categories";
+import toast from "react-hot-toast";
 
 export default function BasicTables() {
   const [isOpen, setIsOpen] = useState(false);
@@ -54,14 +55,16 @@ export default function BasicTables() {
     try {
       if (editMode && editingCategory) {
         await updateCategories(shopId, accessToken, editingCategory.id, categoryData);
+        toast.success("Cập nhật thể loại thành công!");
       } else {
         await createCategories(shopId, accessToken, categoryData);
+        toast.success("Thêm thể loại thành công!");
       }
       
       setRefreshTrigger((prev) => prev + 1);
       closeModal();
     } catch (error) {
-      alert("Có lỗi xảy ra. Vui lòng thử lại.");
+      toast.error("Có lỗi xảy ra. Vui lòng thử lại.");
       console.error("Error saving category:", error);
     }
   };

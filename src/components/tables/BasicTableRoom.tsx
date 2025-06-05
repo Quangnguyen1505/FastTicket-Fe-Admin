@@ -11,6 +11,7 @@ import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { useAppSelector } from "@/redux/hooks";
 import { Room } from "@/types/rooms";
 import { deleteRooms, getAllRooms } from "@/services/rooms.service";
+import toast from "react-hot-toast";
 
 export default function BasicTableRooms({
   refreshTrigger,
@@ -25,6 +26,7 @@ export default function BasicTableRooms({
   useEffect(() => {
     const fetchAllRooms = async () => {
       const res = await getAllRooms({limit: 50, page: 1});
+      console.log("res ", res);
       setRooms(res.metadata || []);
     };
 
@@ -34,7 +36,7 @@ export default function BasicTableRooms({
   const handleDelete = async (roomId: string) => {
     try {
       if (!shopId || !accessToken) {
-        alert("Vui lòng đăng nhập lại!");
+        toast.error("Vui lòng đăng nhập lại!");
         return;
       }
 
@@ -44,11 +46,11 @@ export default function BasicTableRooms({
       const res = await deleteRooms(shopId, accessToken, roomId);
       console.log("res ", res.data);
 
-      alert("Đã xóa phòng thành công!");
+      toast.success("Đã xóa phòng thành công!");
       setRooms((prev) => prev.filter((room) => room.id !== roomId));
     } catch (error) {
       console.log("error ", error);
-      alert("Xóa phòng thất bại. Vui lòng thử lại.");
+      toast.error("Xóa phòng thất bại. Vui lòng thử lại.");
     }
   };
 

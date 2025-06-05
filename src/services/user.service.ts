@@ -1,5 +1,5 @@
 import axiosClientFe from "@/helpers/call-fe";
-import { GetAllUserResponse, UserRequestCreate } from "@/types/users";
+import { CountUserResponse, GetAllUserResponse, UserRequestCreate } from "@/types/users";
 
 export const getAllUsers = async ({
     user_id = "",
@@ -72,5 +72,38 @@ export const deleteUsers = async (user_id: string, accessToken: string, userId: 
     } catch (error) {
         console.error('Error deleting users:', error);
         throw error;  
+    }
+}
+
+export const getCountUser = async (user_id: string, accessToken: string) => {
+    try {
+        const response = await axiosClientFe.get<CountUserResponse>("/api/users/admin/count", {
+            headers: {
+                'x-client-id': user_id,
+                'authorization': accessToken
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching count users:', error);
+        throw error;
+    }
+}
+
+export const searchUsers = async (user_id: string, accessToken: string, search: string) => {
+    try {
+        const response = await axiosClientFe.get<GetAllUserResponse>(`/api/users/admin/search`, {
+            params: {
+                search,
+            },
+            headers: {
+                'x-client-id': user_id,
+                'authorization': accessToken
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error searching users:", error);
+        throw error;
     }
 }

@@ -1,9 +1,12 @@
 import {axiosApisGo} from '@/helpers/call-apis';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(req: NextRequest, context: { params: { id: string } }) {
+export async function GET(
+    req: NextRequest, 
+    {params}: { params: Promise<{ id: string }> }
+) {
     try {
-        const { id } = context.params;
+        const id = (await params).id
         const response = await axiosApisGo.get(`/v1/2024/contact-messages/${id}`);
         console.log("response", response)
         return NextResponse.json(response.data);
@@ -16,9 +19,12 @@ export async function GET(req: NextRequest, context: { params: { id: string } })
     }
 }
 
-export async function PUT(req: NextRequest, context: { params: { id: string } }) {
+export async function PUT(
+    req: NextRequest, 
+    {params}: { params: Promise<{ id: string }> }
+) {
     try {
-        const { id } = context.params;
+        const id = (await params).id;
         const shopId = req.headers.get('x-client-id');
         const accessToken = req.headers.get('authorization');
 
@@ -45,9 +51,12 @@ export async function PUT(req: NextRequest, context: { params: { id: string } })
     }
 }
 
-export async function DELETE(req: NextRequest, context: { params: { id: string } }) {
+export async function DELETE(
+    req: NextRequest, 
+    {params}: { params: Promise<{ id: string }> }
+) {
     try {
-        const { id } = context.params;
+        const id = (await params).id;
         const shopId = req.headers.get('x-client-id');
         const accessToken = req.headers.get('authorization');
         if (!shopId) {

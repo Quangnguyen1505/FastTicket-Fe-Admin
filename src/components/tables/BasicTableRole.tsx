@@ -13,6 +13,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { Role } from "@/types/roles";
 import { deleteRoles, getAllRoles } from "@/services/roles.service";
 import Badge from "../ui/badge/Badge";
+import toast from "react-hot-toast";
 
 export default function BasicTableRoles({
   refreshTrigger,
@@ -49,7 +50,7 @@ export default function BasicTableRoles({
   const handleDelete = async (roleId: string) => {
     try {
         if (!shopId || !accessToken) {
-            alert("Vui lòng đăng nhập lại!");
+            toast.error("Vui lòng đăng nhập lại!");
             return;
         }
 
@@ -59,13 +60,13 @@ export default function BasicTableRoles({
         const res = await deleteRoles(shopId, accessToken, roleId);
         console.log("res ", res.data);
         
-        alert("Đã xóa thể loại thành công!");
+        toast.success("Đã xóa thể loại thành công!");
         setRoles((prev) =>
             prev.filter((role) => role.id !== roleId)
         );
     } catch (error) {
         console.log("error ", error);
-        alert("Xóa thể loại thất bại. Vui lòng thử lại.");
+        toast.error("Xóa thể loại thất bại. Vui lòng thử lại.");
     }
   };
 
