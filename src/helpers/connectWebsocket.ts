@@ -1,4 +1,5 @@
 let ws: WebSocket | null = null;
+import { env } from '@/env.mjs';
 
 export const connectWebSocket = (
   sessionId: string,
@@ -9,7 +10,7 @@ export const connectWebSocket = (
     ws = null;
   }
 
-  ws = new WebSocket(`ws://localhost:8082/ws?sessionId=${sessionId}`);
+  ws = new WebSocket(`${env.NEXT_PUBLIC_WEB_SOCKET_URL}?sessionId=${sessionId}`);
 
   ws.onopen = () => {
     console.log("✅ WebSocket connected!");

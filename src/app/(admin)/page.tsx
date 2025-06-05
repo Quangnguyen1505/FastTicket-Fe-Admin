@@ -16,7 +16,7 @@ export default function Ecommerce() {
 
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
           <h2 className="text-xl font-semibold mb-4 text-gray-700 dark:text-gray-200">
-            Revenue Overview
+            Doanh thu
           </h2>
           <RevenueDashboard />
         </div>

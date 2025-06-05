@@ -30,50 +30,50 @@ type NavItem = {
 const navItems: NavItem[] = [
   {
     icon: <GridIcon />,
-    name: "Dashboard",
+    name: "Trang chủ",
     subItems: [{ name: "Cinema", path: "/", pro: false }],
   },
   {
     icon: <CalenderIcon />,
-    name: "ShowTimes",
+    name: "Lịch chiếu",
     path: "/calendar",
   },
   {
-    name: "Movies",
+    name: "Phim",
     icon: <MovieIcon />,
     subItems: [
-      { name: "Info", path: "/movies/info", pro: false },
-      { name: "Category", path: "/movies/category", pro: false }
+      { name: "Thông tin", path: "/movies/info", pro: false },
+      { name: "Danh mục", path: "/movies/category", pro: false }
     ],
   },
   {
-    name: "Rooms",
+    name: "Phòng chiếu",
     icon: <RoomIcon />,
     subItems: [
-      { name: "Info", path: "/rooms/info", pro: false },
-      { name: "Seat Types", path: "/rooms/seat-types", pro: false }
+      { name: "Thông tin", path: "/rooms/info", pro: false },
+      { name: "Loại ghế", path: "/rooms/seat-types", pro: false }
     ],
   },
   {
-    name: "Bookings",
+    name: "Đơn hàng",
     icon: <TicketIcon />,
     path: "/booking",
   },
   {
-    name: "User",
+    name: "Người dùng",
     icon: <UserCircleIcon />,
     subItems: [
-      { name: "Info", path: "/users/info", pro: false },
-      { name: "Roles", path: "/users/role", pro: false }
+      { name: "Thông tin", path: "/users/info", pro: false },
+      { name: "Vai trò", path: "/users/role", pro: false }
     ],
   },
   {
-    name: "Events",
+    name: "Sự kiện",
     icon: <GridIcon />,
     path: "/events",
   },
   {
-    name: "Contact Message",
+    name: "Tin nhắn liên hệ",
     icon: <EnvelopeIcon />,
     path: "/contact-message",
   },
@@ -83,12 +83,12 @@ const navItems: NavItem[] = [
     path: "/snack",
   },
   {
-    name: "Discount",
+    name: "Giảm giá",
     icon: <DiscountIcon />,
     path: "/discount",
   },
   {
-    name: "Chat Support",
+    name: "Hỗ trợ trò chuyện",
     icon: <ChatIcon />,
     path: "/chat-support",
   },
@@ -97,9 +97,9 @@ const navItems: NavItem[] = [
 const othersItems: NavItem[] = [
   {
     icon: <PlugInIcon />,
-    name: "Authentication",
+    name: "Xác thực",
     subItems: [
-      { name: "Sign In", path: "/signin", pro: false },
+      { name: "Đăng nhập", path: "/signin", pro: false },
     ],
   },
 ];
@@ -358,7 +358,7 @@ const AppSidebar: React.FC = () => {
                 }`}
               >
                 {isExpanded || isHovered || isMobileOpen ? (
-                  "Menu"
+                  "Menu chính"
                 ) : (
                   <HorizontaLDots />
                 )}

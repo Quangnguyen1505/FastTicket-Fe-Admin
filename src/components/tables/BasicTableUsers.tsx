@@ -87,7 +87,7 @@ export default function BasicTableUsers() {
             ...updatedFormData,
             usr_phone: Number(updatedFormData.usr_phone),
             usr_sex: Number(updatedFormData.usr_sex),
-            usr_date_of_birth: new Date(updatedFormData.usr_date_of_birth),
+            usr_date_of_birth: updatedFormData.usr_date_of_birth ? new Date(updatedFormData.usr_date_of_birth) : new Date(0),
             id: selectedUser.id,
         };  
     

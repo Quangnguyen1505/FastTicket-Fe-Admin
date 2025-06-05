@@ -40,7 +40,7 @@ const DiscountsPage: React.FC = () => {
         
         const res = await getAllMovies({});
         console.log('Movies:', res);
-        const moviesData = res.metadata || [];
+        const moviesData = res.metadata.movies || [];
         const formattedMovies = moviesData.map((movie: { id: string; movie_title: string }) => ({
           id: movie.id,
           movie_title: movie.movie_title,

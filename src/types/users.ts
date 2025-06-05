@@ -34,18 +34,18 @@ export interface UserRequestCreate {
 }
 
 export interface UserRequestUpdate {
-    file: File | null;
+    file?: File | null;
     usr_avatar_url?: string;
-    usr_first_name: string;
-    usr_last_name: string;
-    usr_password: string;
-    usr_email: string;
-    usr_phone: string;
-    usr_sex: string;
-    usr_date_of_birth: Date; 
-    usr_address: string;
-    role_name: string;
-    usr_status: number; 
+    usr_first_name?: string;
+    usr_last_name?: string;
+    usr_password?: string;
+    usr_email?: string;
+    usr_phone?: string;
+    usr_sex?: string;
+    usr_date_of_birth?: Date; 
+    usr_address?: string;
+    role_name?: string;
+    usr_status?: number; 
 }
 
 export interface CountUserResponse {
